@@ -1,6 +1,7 @@
 package com.reynaldiwijaya.learnrepositorypatternmvvmthesportdb.Adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,31 +13,34 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.reynaldiwijaya.learnrepositorypatternmvvmthesportdb.Model.TeamDetail;
 import com.reynaldiwijaya.learnrepositorypatternmvvmthesportdb.R;
+import com.reynaldiwijaya.learnrepositorypatternmvvmthesportdb.databinding.ListTeanBinding;
 
 import java.util.List;
 
 public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
-    private Context context;
     private List<TeamDetail> teamDetails;
 
-    public TeamAdapter(Context context, List<TeamDetail> teamDetails) {
-        this.context = context;
+    private LayoutInflater layoutInflater;
+
+    public TeamAdapter(List<TeamDetail> teamDetails) {
         this.teamDetails = teamDetails;
     }
 
     @NonNull
     @Override
-    public TeamAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.list_tean, viewGroup, false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        if (layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        }
+        ListTeanBinding listTeanBinding = DataBindingUtil.inflate(layoutInflater, R.layout.list_tean, viewGroup, false);
+
+        return new ViewHolder(listTeanBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TeamAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.tvNama.setText(teamDetails.get(i).getTeamName());
-        Glide.with(context)
-                .load(teamDetails.get(i).getTeamLogo())
-                .into(viewHolder.imgClub);
+        viewHolder.binding.setTeamDetailVm(teamDetails.get(i));
     }
 
     @Override
@@ -46,14 +50,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNama;
-        ImageView imgClub;
+        private final ListTeanBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
+        ViewHolder(ListTeanBinding listTeanBinding) {
+            super(listTeanBinding.getRoot());
+            this.binding = listTeanBinding;
 
-            tvNama = itemView.findViewById(R.id.tv_club);
-            imgClub = itemView.findViewById(R.id.imgClub);
         }
     }
 }
