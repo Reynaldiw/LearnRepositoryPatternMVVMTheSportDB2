@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
     <data>
         
@@ -11,11 +12,9 @@
         
     </data>
 
-<LinearLayout
-    xmlns:app="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_margin="8dp">
 
     <ImageView
@@ -24,16 +23,27 @@
         android:layout_height="70dp"
         bind:teamLogo="@{teamDetailVm.teamLogo}"/>
 
-    <TextView
-        android:id="@+id/tv_club"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:textSize="24sp"
-        android:textColor="#000"
-        android:text="@{teamDetailVm.teamName}"/>
+        <TextView
+            android:id="@+id/tv_club"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:textSize="24sp"
+            android:textColor="#000"
+            android:layout_toRightOf="@id/imgClub"
+            android:text="@{teamDetailVm.teamName}"/>
 
-</LinearLayout>
+        <com.reynaldiwijaya.learnrepositorypatternmvvmthesportdb.Widget.MyRatingView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_club"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/imgClub"
+            app:numStars = "5"
+            app:rating="2"/>
+
+</RelativeLayout>
 
 </layout>
